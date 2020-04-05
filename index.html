@@ -8,18 +8,21 @@
 </head>
 <body>
     <div class="container-calc">
-        <div class="output-input">
-            <p id="output-input-para"></p>
-        </div>
+            <div class="display-helper">
+                <p>0 + 0 + 0 - 0 =</p>
+            </div>
+            <div class="display">
+              <p id="display-main">0</p>
+            </div>
         <div class="calc-buttons">
-            <button id="backspace">←</button>
-            <button id="clear">Clear</button>
-            <button id="devide">/</button>
-            <button id="multiply" value="*">*</button>
-            <button id="subtract">-</button>
-            <button id="decimal">.</button>
-            <button id="equals">=</button>
-            <button id="add">+</button>
+            <button data-action="backspace">←</button>
+            <button data-action="clear">AC</button>
+            <button data-action="devide">/</button>
+            <button data-action="multiply" value="*">*</button>
+            <button data-action="subtract">-</button>
+            <button data-action="decimal">.</button>
+            <button data-action="equals">=</button>
+            <button data-action="add">+</button>
             <button class="numbered-button" id="seven">7</button>
             <button class="numbered-button" id="eight">8</button>
             <button class="numbered-button" id="nine">9</button>
