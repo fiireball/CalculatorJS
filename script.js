@@ -64,6 +64,9 @@ buttons.forEach(button => {
 
     if (!action) {
         button.addEventListener('click', e => {
+            if (isNaN(displayValue) || isNaN(firstValue) || isNaN(secondValue)) {
+                clearAll()
+            }
             console.log('number key ' + key)
             if (displayValue === "0" || previousKeyType === "operator" || previousKeyType === "equals") {
                 displayValue = key
@@ -78,10 +81,15 @@ buttons.forEach(button => {
     } else if (action === "add" || action === "subtract" || action === "multiply" || action === "devide") {
         button.addEventListener('click', e => {
             console.log('operator')
-            if (!!firstValue && secondValue != displayValue && previousKeyType != "equals") {   // for stringing multiple operations together
-                secondValue = displayValue;                                                     // but not if previous action was "equals"
-                displayValue = operate(operator, firstValue, secondValue)                       // otherwise hitting an operator after "equals"
-                display.textContent = displayValue                                              // performs another unwanted calculation
+
+            // for stringing multiple operations together
+            // but not if previous action was "equals"
+            // otherwise hitting an operator after "equals"
+            // performs another unwanted calculation
+            if (!!firstValue && secondValue != displayValue && previousKeyType != "equals") {   
+                secondValue = displayValue;                                                     
+                displayValue = operate(operator, firstValue, secondValue)                       
+                display.textContent = displayValue                                              
                 firstValue = displayValue
                 operator = action;
             } else {
@@ -107,7 +115,11 @@ buttons.forEach(button => {
     } else if (action === "decimal") {
         button.addEventListener('click', e => {
             console.log('decimal button')
-            if (!displayValue.includes(".")) {
+            if (previousKeyType === "operator") {
+                
+                displayValue = '0.';
+                display.textContent = displayValue;
+            } else if (!displayValue.toString().includes(".")) {
                displayValue += '.';
                display.textContent = displayValue;
             }
@@ -116,6 +128,7 @@ buttons.forEach(button => {
         });
     } else if (action === "equals")
         button.addEventListener('click', e => {
+            
             if (previousKeyType === "equals") {
                 firstValue = displayValue
                 displayValue = operate(operator, firstValue, secondValue)
@@ -136,6 +149,7 @@ function clearAll() {
     displayValue = "0"
     firstValue = null
     secondValue = null
+    operator = null
     display.textContent = displayValue
 }
 
