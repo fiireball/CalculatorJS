@@ -55,7 +55,7 @@ p {
 }
 
 button {
-    
+    background-color: lightblue;
 }
 
 [data-action="clear"] {

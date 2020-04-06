@@ -64,6 +64,9 @@ buttons.forEach(button => {
 
     if (!action) {
         button.addEventListener('click', e => {
+            if (previousKeyType === "equals") {
+                clearAll()
+            }
             if (isNaN(displayValue) || isNaN(firstValue) || isNaN(secondValue)) {
                 clearAll()
             }
@@ -81,12 +84,15 @@ buttons.forEach(button => {
     } else if (action === "add" || action === "subtract" || action === "multiply" || action === "devide") {
         button.addEventListener('click', e => {
             console.log('operator')
+            if (previousKeyType === "operator") {
+                operator = action;
 
-            // for stringing multiple operations together
-            // but not if previous action was "equals"
-            // otherwise hitting an operator after "equals"
-            // performs another unwanted calculation
-            if (!!firstValue && secondValue != displayValue && previousKeyType != "equals") {   
+            
+            // V for stringing multiple operations together   V
+            // V but not if previous action was "equals"      V
+            // V otherwise hitting an operator after "equals" V
+            // V performs another unwanted calculation        V
+            } else if (!!firstValue &&  previousKeyType != "equals") {   
                 secondValue = displayValue;                                                     
                 displayValue = operate(operator, firstValue, secondValue)                       
                 display.textContent = displayValue                                              
@@ -157,3 +163,21 @@ function removeDepressed() {
     Array.from(calcButtons.children).forEach(k => k.classList.remove('is-depressed'))
 }
 
+
+function clickKeyboard(element) {
+    element.preventDefault()
+    console.log(element.keyCode)
+    let keys = document.querySelector(`button[data-key="${element.keyCode}"]`)
+    if (!keys) {
+        // decimal key exception (different keyCodes in different OS?)
+        if (element.keyCode == 108) {
+            keys = document.querySelector(`button[data-key="110"]`)
+            keys.click()
+        }
+        return
+    }
+    keys.click()
+}
+    
+
+window.addEventListener('keydown', clickKeyboard);
